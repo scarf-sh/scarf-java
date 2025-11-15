@@ -11,17 +11,21 @@ Installation
 
 This library targets Java 11+ and has no runtime dependencies.
 
-- Maven (example, version subject to change):
+- Maven (example, version subject to change). Add to your `pom.xml` once published:
 
-  Add to your `pom.xml` once published:
+```xml
+<dependency>
+  <groupId>sh.scarf</groupId>
+  <artifactId>scarf-sdk</artifactId>
+  <version>0.1.0</version>
+</dependency>
+```
 
-  <dependency>
-    <groupId>sh.scarf</groupId>
-    <artifactId>scarf-sdk</artifactId>
-    <version>0.1.0</version>
-  </dependency>
+- Gradle (example):
 
-- Gradle (example): `implementation("sh.scarf:scarf-sdk:0.1.0")`
+```groovy
+implementation "sh.scarf:scarf-sdk:0.1.0"
+```
 
 Usage
 -----
