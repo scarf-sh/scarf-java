@@ -71,6 +71,9 @@ Notes
 -----
 
 - Properties must be a `Map<String, ?>`. Values are converted to strings via `toString()` (null becomes JSON `null`).
+- User-Agent version:
+  - When running from classes (`java -cp target/classes ...`) the version shows as `dev`.
+  - When packaged as a JAR, the version is taken from the JAR manifest (`Implementation-Version` = `${project.version}`), e.g. `0.1.0` or `0.1.0-SNAPSHOT`.
 
 Development
 -----------
@@ -118,17 +121,30 @@ nix-shell --run "mvn -q -DskipTests compile && java -cp target/classes sh.scarf.
 Publishing
 ----------
 
-To publish a new version (example outline):
+Publishing uses Git tags and GitHub Actions to deploy to Maven Central.
 
-1. Update version in `pom.xml`.
-2. Create and push a new tag:
+Setup (one-time)
+- Create an account on Sonatype OSSRH and request the `sh.scarf` groupId if not already owned.
+- Generate a GPG key (publishing requires signed artifacts).
+- Add the following GitHub repository secrets:
+  - `OSSRH_USERNAME`: Your OSSRH username (or token user: e.g., `token` if using the new tokens)
+  - `OSSRH_PASSWORD`: Your OSSRH password (or token value)
+  - `GPG_PRIVATE_KEY`: Base64-encoded ASCII-armored private key
+  - `GPG_PASSPHRASE`: Passphrase for the key
+
+Release
+- Create and push a version tag. The workflow derives the version from the tag (strip the leading `v`).
 
 ```
 git tag v0.1.0
 git push origin v0.1.0
 ```
 
-CI can be configured to build and publish to Maven Central when a new version tag is pushed.
+The `Release` workflow will:
+- Set the Maven project version to `0.1.0`
+- Build, sign, and deploy to OSSRH
+- Auto-close and release the staging repository
+
 
 License
 -------
