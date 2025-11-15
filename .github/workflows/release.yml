@@ -71,4 +71,4 @@ jobs:
           GPG_TTY: $(tty)
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
-          mvn -B -s $GITHUB_WORKSPACE/maven-settings.xml -P release -DskipTests -Dgpg.passphrase=$GPG_PASSPHRASE clean package central:publish
+          mvn -B -s $GITHUB_WORKSPACE/maven-settings.xml -P release -DskipTests -Dgpg.passphrase=$GPG_PASSPHRASE clean verify central-publishing:publish
