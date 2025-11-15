@@ -1,6 +1,9 @@
 scarf-java
 ================
 
+[![CI](https://github.com/scarf-sh/scarf-java/actions/workflows/ci.yml/badge.svg)](https://github.com/scarf-sh/scarf-java/actions/workflows/ci.yml)
+[![Maven Central](https://img.shields.io/maven-central/v/sh.scarf/scarf-sdk.svg)](https://central.sonatype.com/artifact/sh.scarf/scarf-sdk)
+
 A Java client for sending telemetry events to Scarf.
 
 Installation
@@ -14,11 +17,11 @@ This library targets Java 11+ and has no runtime dependencies.
 
   <dependency>
     <groupId>sh.scarf</groupId>
-    <artifactId>scarf-java</artifactId>
+    <artifactId>scarf-sdk</artifactId>
     <version>0.1.0</version>
   </dependency>
 
-- Gradle (example): `implementation("sh.scarf:scarf-java:0.1.0")`
+- Gradle (example): `implementation("sh.scarf:scarf-sdk:0.1.0")`
 
 Usage
 -----

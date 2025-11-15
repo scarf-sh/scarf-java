@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>sh.scarf</groupId>
-    <artifactId>scarf-java</artifactId>
+    <artifactId>scarf-sdk</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <name>Scarf Java SDK</name>
     <description>A Java client for sending telemetry events to Scarf.</description>
@@ -70,7 +70,7 @@
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                         <manifestEntries>
-                            <Implementation-Title>scarf-java</Implementation-Title>
+                            <Implementation-Title>scarf-sdk</Implementation-Title>
                             <Implementation-Version>${project.version}</Implementation-Version>
                             <Implementation-Vendor>Scarf</Implementation-Vendor>
                         </manifestEntries>
