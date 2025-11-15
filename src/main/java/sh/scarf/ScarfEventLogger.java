@@ -73,6 +73,9 @@ public class ScarfEventLogger {
 
         Map<String, ?> props = (properties == null) ? Collections.emptyMap() : properties;
         String body = JsonUtil.toJsonProperties(props);
+        if (verbose) {
+            System.err.println("Scarf payload: " + body);
+        }
 
         HttpClient client = HttpClient.newBuilder()
                 .connectTimeout(timeout)
@@ -91,7 +94,8 @@ public class ScarfEventLogger {
             int code = response.statusCode();
             boolean ok = code >= 200 && code < 300;
             if (verbose) {
-                System.err.println("Scarf request status=" + code + ", ok=" + ok);
+                String respBody = response.body();
+                System.err.println("Scarf response status=" + code + ", body=" + (respBody == null ? "" : respBody));
             }
             return ok;
         } catch (IOException | InterruptedException e) {

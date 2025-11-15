@@ -69,4 +69,30 @@ public class ScarfEventLoggerIntegrationTest {
         assertTrue(lastUserAgent.startsWith("scarf-java/"));
         assertTrue(lastUserAgent.contains("(platform="));
     }
+
+    @Test
+    void verboseModePrintsPayloadAndResponse() {
+        String url = "http://localhost:" + server.getAddress().getPort() + "/";
+        Map<String, String> env = new LinkedHashMap<>();
+        env.put("SCARF_VERBOSE", "1");
+        ScarfEventLogger logger = new ScarfEventLogger(url, 2.0, env);
+
+        Map<String, Object> props = new LinkedHashMap<>();
+        props.put("event", "verbose_test");
+
+        java.io.PrintStream orig = System.err;
+        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+        try {
+            System.setErr(new java.io.PrintStream(baos));
+            boolean ok = logger.logEvent(props);
+            assertTrue(ok);
+        } finally {
+            System.setErr(orig);
+        }
+
+        String out = baos.toString();
+        assertTrue(out.contains("Scarf payload: {\"event\":\"verbose_test\"}"));
+        assertTrue(out.contains("Scarf response status=200"));
+        assertTrue(out.contains("body=ok"));
+    }
 }
