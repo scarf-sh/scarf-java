@@ -130,17 +130,7 @@ Publishing
 
 Publishing uses Git tags and GitHub Actions to deploy to Maven Central via Sonatype Central (modern flow).
 
-Setup (one-time)
-- Create an account on Sonatype Central and ensure ownership of the `sh.scarf` groupId.
-- Create a Publishing Token in Sonatype Central (username is typically `token`, password is the token value).
-- Generate a GPG key (publishing requires signed artifacts).
-- Add the following GitHub repository secrets:
-  - `CENTRAL_USERNAME`: Your Central publishing username (often `token`)
-  - `CENTRAL_PASSWORD`: Your Central publishing token value
-  - `GPG_PRIVATE_KEY`: Your private key, either ASCII‑armored (begins with `-----BEGIN PGP PRIVATE KEY BLOCK-----`) or the same content base64‑encoded
-  - `GPG_PASSPHRASE`: Passphrase for the key
-
-Release
+### Release
 - Create and push a version tag. The workflow derives the version from the tag (strip the leading `v`).
 
 ```bash
@@ -151,14 +141,6 @@ git push origin v0.1.0
 The `Release` workflow will:
 - Set the Maven project version to `0.1.0`
 - Build, sign, and publish to Maven Central via Sonatype Central tokens
-
-Troubleshooting
-- If you see `base64: invalid input` or `gpg: no valid OpenPGP data found`, paste the ASCII‑armored private key directly into the `GPG_PRIVATE_KEY` secret (not base64). The workflow auto‑detects and imports either format.
-- If Central reports invalid signature or cannot find your public key by fingerprint:
-  - Upload your public key to a supported keyserver, e.g. `keys.openpgp.org`, and verify the email identity used for the key (you will receive a verification email).
-  - Alternatively, add the same public key in the Sonatype Central portal under your account’s PGP keys.
-  - Make sure the key fingerprint in CI matches the one you uploaded (the workflow prints it during release).
-
 
 License
 -------
