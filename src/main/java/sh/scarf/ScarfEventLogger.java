@@ -75,6 +75,7 @@ public class ScarfEventLogger {
         String body = JsonUtil.toJsonProperties(props);
         if (verbose) {
             System.err.println("Scarf payload: " + body);
+            System.err.println("Scarf user-agent: " + userAgent);
         }
 
         HttpClient client = HttpClient.newBuilder()

@@ -92,6 +92,7 @@ public class ScarfEventLoggerIntegrationTest {
 
         String out = baos.toString();
         assertTrue(out.contains("Scarf payload: {\"event\":\"verbose_test\"}"));
+        assertTrue(out.contains("Scarf user-agent: scarf-java/"));
         assertTrue(out.contains("Scarf response status=200"));
         assertTrue(out.contains("body=ok"));
     }
