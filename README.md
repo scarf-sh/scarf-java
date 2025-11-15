@@ -87,7 +87,7 @@ Development
 
 Clone the repository and run tests with Maven:
 
-```
+```bash
 mvn -q -DskipTests=false test
 ```
 
@@ -96,7 +96,7 @@ Using Nix (optional)
 
 This repo provides a Nix shell for a zero-setup environment. It prefers Temurin 17 when available in your `nixpkgs`, and falls back to OpenJDK 17.
 
-```
+```bash
 # Drop into a shell with JDK + Maven
 nix-shell
 
@@ -109,7 +109,7 @@ Runnable example
 
 Sends two events to the public endpoint `https://scarf.gateway.scarf.sh/scarf-java`.
 
-```
+```bash
 # Ensure analytics are not disabled
 unset DO_NOT_TRACK SCARF_NO_ANALYTICS
 
@@ -143,7 +143,7 @@ Setup (one-time)
 Release
 - Create and push a version tag. The workflow derives the version from the tag (strip the leading `v`).
 
-```
+```bash
 git tag v0.1.0
 git push origin v0.1.0
 ```
