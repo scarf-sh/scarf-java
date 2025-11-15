@@ -20,6 +20,7 @@ public class ScarfEventLogger {
     private final Duration defaultTimeout;
     private final Map<String, String> env;
     private final boolean verbose;
+    private final String userAgent;
 
     /**
      * Create a logger with default timeout of 3.0 seconds.
@@ -45,6 +46,7 @@ public class ScarfEventLogger {
         this.defaultTimeout = Duration.ofMillis(Math.max(0, (long) (defaultTimeoutSeconds * 1000)));
         this.env = environment == null ? Collections.emptyMap() : new HashMap<>(environment);
         this.verbose = isTruthy(env.get("SCARF_VERBOSE"));
+        this.userAgent = buildUserAgent();
     }
 
     /**
@@ -80,6 +82,7 @@ public class ScarfEventLogger {
                 .uri(URI.create(endpointUrl))
                 .timeout(timeout)
                 .header("Content-Type", "application/json")
+                .header("User-Agent", userAgent)
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
 
@@ -114,5 +117,44 @@ public class ScarfEventLogger {
         if (v == null) return false;
         String s = v.trim().toLowerCase(Locale.ROOT);
         return s.equals("1") || s.equals("true") || s.equals("yes") || s.equals("on");
+    }
+
+    private static String buildUserAgent() {
+        String baseVersion = "dev";
+        try {
+            Package p = ScarfEventLogger.class.getPackage();
+            if (p != null && p.getImplementationVersion() != null) {
+                baseVersion = p.getImplementationVersion();
+            }
+        } catch (Throwable ignored) {
+        }
+
+        String extra = "";
+        try {
+            String osName = System.getProperty("os.name", "unknown");
+            String platformName;
+            String lower = osName.toLowerCase(Locale.ROOT);
+            if (lower.contains("mac")) {
+                platformName = "macOS";
+            } else if (lower.contains("linux")) {
+                platformName = "linux";
+            } else if (lower.contains("windows")) {
+                platformName = "windows";
+            } else {
+                platformName = lower.isBlank() ? "unknown" : lower;
+            }
+
+            String arch = System.getProperty("os.arch", "unknown");
+            if (arch == null || arch.isBlank()) arch = "unknown";
+
+            String jver = System.getProperty("java.version", "unknown");
+            if (jver == null || jver.isBlank()) jver = "unknown";
+
+            extra = " (platform=" + platformName + "; arch=" + arch + ", java=" + jver + ")";
+        } catch (Throwable ignored) {
+            // fall back to base UA
+        }
+
+        return "scarf-java/" + baseVersion + extra;
     }
 }

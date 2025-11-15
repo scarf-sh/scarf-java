@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ScarfEventLoggerIntegrationTest {
     private HttpServer server;
     private volatile String lastBody;
+    private volatile String lastUserAgent;
 
     @BeforeEach
     void setUp() throws IOException {
@@ -33,6 +34,7 @@ public class ScarfEventLoggerIntegrationTest {
                     byte[] bytes = is.readAllBytes();
                     lastBody = new String(bytes, StandardCharsets.UTF_8);
                 }
+                lastUserAgent = exchange.getRequestHeaders().getFirst("User-Agent");
                 byte[] resp = "ok".getBytes(StandardCharsets.UTF_8);
                 exchange.getResponseHeaders().add("Content-Type", "text/plain");
                 exchange.sendResponseHeaders(200, resp.length);
@@ -63,5 +65,8 @@ public class ScarfEventLoggerIntegrationTest {
         boolean ok = logger.logEvent(props);
         assertTrue(ok, "Expected true for 2xx response");
         assertEquals(JsonUtil.toJsonProperties(props), lastBody);
+        assertNotNull(lastUserAgent);
+        assertTrue(lastUserAgent.startsWith("scarf-java/"));
+        assertTrue(lastUserAgent.contains("(platform="));
     }
 }
