@@ -30,16 +30,16 @@ jobs:
           echo "Version from tag: $VERSION"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Configure Maven settings
+      - name: Configure Maven settings (Sonatype Central)
         run: |
           cat > $GITHUB_WORKSPACE/maven-settings.xml <<'SETTINGS'
           <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
             <servers>
               <server>
-                <id>ossrh</id>
-                <username>${env.OSSRH_USERNAME}</username>
-                <password>${env.OSSRH_PASSWORD}</password>
+                <id>central</id>
+                <username>${env.CENTRAL_USERNAME}</username>
+                <password>${env.CENTRAL_PASSWORD}</password>
               </server>
             </servers>
           </settings>
@@ -60,12 +60,11 @@ jobs:
         run: |
           mvn -q -B versions:set -DnewVersion=${{ steps.vars.outputs.version }} -DgenerateBackupPoms=false
 
-      - name: Build and deploy to Maven Central
+      - name: Build and publish to Maven Central (Sonatype Central)
         env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+          CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           GPG_TTY: $(tty)
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
-          mvn -B -s $GITHUB_WORKSPACE/maven-settings.xml -P release -DskipTests deploy -Dgpg.passphrase=$GPG_PASSPHRASE
-
+          mvn -B -s $GITHUB_WORKSPACE/maven-settings.xml -P release -DskipTests -Dgpg.passphrase=$GPG_PASSPHRASE clean package central:publish

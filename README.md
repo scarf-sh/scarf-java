@@ -128,14 +128,15 @@ nix-shell --run "mvn -q -DskipTests compile && java -cp target/classes sh.scarf.
 Publishing
 ----------
 
-Publishing uses Git tags and GitHub Actions to deploy to Maven Central.
+Publishing uses Git tags and GitHub Actions to deploy to Maven Central via Sonatype Central (modern flow).
 
 Setup (one-time)
-- Create an account on Sonatype OSSRH and request the `sh.scarf` groupId if not already owned.
+- Create an account on Sonatype Central and ensure ownership of the `sh.scarf` groupId.
+- Create a Publishing Token in Sonatype Central (username is typically `token`, password is the token value).
 - Generate a GPG key (publishing requires signed artifacts).
 - Add the following GitHub repository secrets:
-  - `OSSRH_USERNAME`: Your OSSRH username (or token user: e.g., `token` if using the new tokens)
-  - `OSSRH_PASSWORD`: Your OSSRH password (or token value)
+  - `CENTRAL_USERNAME`: Your Central publishing username (often `token`)
+  - `CENTRAL_PASSWORD`: Your Central publishing token value
   - `GPG_PRIVATE_KEY`: Base64-encoded ASCII-armored private key
   - `GPG_PASSPHRASE`: Passphrase for the key
 
@@ -149,8 +150,7 @@ git push origin v0.1.0
 
 The `Release` workflow will:
 - Set the Maven project version to `0.1.0`
-- Build, sign, and deploy to OSSRH
-- Auto-close and release the staging repository
+- Build, sign, and publish to Maven Central via Sonatype Central tokens
 
 
 License
