@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   publish:
@@ -80,3 +80,13 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
           mvn -B -s $GITHUB_WORKSPACE/maven-settings.xml -P release -DskipTests -Dgpg.passphrase=$GPG_PASSPHRASE -Dgpg.keyname=${{ steps.gpg.outputs.fingerprint }} clean verify central-publishing:publish
+
+      - name: Upload release JAR to GitHub
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: v${{ steps.vars.outputs.version }}
+          tag_name: ${{ github.ref_name }}
+          files: target/scarf-sdk-${{ steps.vars.outputs.version }}.jar
+          fail_on_unmatched_files: true
