@@ -94,6 +94,27 @@ nix-shell
 mvn -q test
 ```
 
+Runnable example
+----------------
+
+Sends two events to the public endpoint `https://scarf.gateway.scarf.sh/scarf-java`.
+
+```
+# Ensure analytics are not disabled
+unset DO_NOT_TRACK SCARF_NO_ANALYTICS
+
+# Option A: compile then run classes
+mvn -q -DskipTests package
+java -cp target/classes com.scarf.examples.LiveExampleBasic
+
+# Option B: run directly from classes without packaging
+mvn -q -DskipTests compile
+java -cp target/classes com.scarf.examples.LiveExampleBasic
+
+# With Nix
+nix-shell --run "mvn -q -DskipTests compile && java -cp target/classes com.scarf.examples.LiveExampleBasic"
+```
+
 Publishing
 ----------
 
