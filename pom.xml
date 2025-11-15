@@ -129,6 +129,7 @@
                         <artifactId>maven-gpg-plugin</artifactId>
                         <version>3.2.4</version>
                         <configuration>
+                            <keyname>${gpg.keyname}</keyname>
                             <gpgArguments>
                                 <arg>--pinentry-mode</arg>
                                 <arg>loopback</arg>

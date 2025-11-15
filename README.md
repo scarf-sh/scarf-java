@@ -154,6 +154,10 @@ The `Release` workflow will:
 
 Troubleshooting
 - If you see `base64: invalid input` or `gpg: no valid OpenPGP data found`, paste the ASCII‑armored private key directly into the `GPG_PRIVATE_KEY` secret (not base64). The workflow auto‑detects and imports either format.
+- If Central reports invalid signature or cannot find your public key by fingerprint:
+  - Upload your public key to a supported keyserver, e.g. `keys.openpgp.org`, and verify the email identity used for the key (you will receive a verification email).
+  - Alternatively, add the same public key in the Sonatype Central portal under your account’s PGP keys.
+  - Make sure the key fingerprint in CI matches the one you uploaded (the workflow prints it during release).
 
 
 License
