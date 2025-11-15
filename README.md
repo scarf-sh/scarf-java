@@ -13,12 +13,12 @@ This library targets Java 11+ and has no runtime dependencies.
   Add to your `pom.xml` once published:
 
   <dependency>
-    <groupId>com.scarf</groupId>
+    <groupId>sh.scarf</groupId>
     <artifactId>scarf-java</artifactId>
     <version>0.1.0</version>
   </dependency>
 
-- Gradle (example): `implementation("com.scarf:scarf-java:0.1.0")`
+- Gradle (example): `implementation("sh.scarf:scarf-java:0.1.0")`
 
 Usage
 -----
@@ -26,7 +26,7 @@ Usage
 Import and initialize with the required endpoint URL:
 
 ```java
-import com.scarf.ScarfEventLogger;
+import sh.scarf.ScarfEventLogger;
 import java.util.*;
 
 ScarfEventLogger logger = new ScarfEventLogger(
@@ -105,14 +105,14 @@ unset DO_NOT_TRACK SCARF_NO_ANALYTICS
 
 # Option A: compile then run classes
 mvn -q -DskipTests package
-java -cp target/classes com.scarf.examples.LiveExampleBasic
+java -cp target/classes sh.scarf.examples.LiveExampleBasic
 
 # Option B: run directly from classes without packaging
 mvn -q -DskipTests compile
-java -cp target/classes com.scarf.examples.LiveExampleBasic
+java -cp target/classes sh.scarf.examples.LiveExampleBasic
 
 # With Nix
-nix-shell --run "mvn -q -DskipTests compile && java -cp target/classes com.scarf.examples.LiveExampleBasic"
+nix-shell --run "mvn -q -DskipTests compile && java -cp target/classes sh.scarf.examples.LiveExampleBasic"
 ```
 
 Publishing

@@ -1,4 +1,4 @@
-package com.scarf;
+package sh.scarf;
 
 import java.util.*;
 

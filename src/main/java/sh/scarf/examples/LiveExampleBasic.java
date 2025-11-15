@@ -1,6 +1,6 @@
-package com.scarf.examples;
+package sh.scarf.examples;
 
-import com.scarf.ScarfEventLogger;
+import sh.scarf.ScarfEventLogger;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
