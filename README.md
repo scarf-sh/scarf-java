@@ -137,7 +137,7 @@ Setup (one-time)
 - Add the following GitHub repository secrets:
   - `CENTRAL_USERNAME`: Your Central publishing username (often `token`)
   - `CENTRAL_PASSWORD`: Your Central publishing token value
-  - `GPG_PRIVATE_KEY`: Base64-encoded ASCII-armored private key
+  - `GPG_PRIVATE_KEY`: Your private key, either ASCII‑armored (begins with `-----BEGIN PGP PRIVATE KEY BLOCK-----`) or the same content base64‑encoded
   - `GPG_PASSPHRASE`: Passphrase for the key
 
 Release
@@ -151,6 +151,9 @@ git push origin v0.1.0
 The `Release` workflow will:
 - Set the Maven project version to `0.1.0`
 - Build, sign, and publish to Maven Central via Sonatype Central tokens
+
+Troubleshooting
+- If you see `base64: invalid input` or `gpg: no valid OpenPGP data found`, paste the ASCII‑armored private key directly into the `GPG_PRIVATE_KEY` secret (not base64). The workflow auto‑detects and imports either format.
 
 
 License
