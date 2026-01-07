@@ -155,7 +155,7 @@ public class ScarfEventLogger {
             String jver = System.getProperty("java.version", "unknown");
             if (jver == null || jver.isBlank()) jver = "unknown";
 
-            extra = " (platform=" + platformName + "; arch=" + arch + ", java=" + jver + ")";
+            extra = " (platform=" + platformName + "; arch=" + arch + "; java=" + jver + ")";
         } catch (Throwable ignored) {
             // fall back to base UA
         }
